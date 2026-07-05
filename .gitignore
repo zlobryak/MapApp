@@ -1,6 +1,7 @@
 HELP.md
 .gradle
 build/
+/src/release/res/values/google_maps_api.xml
 
 ### STS ###
 .apt_generated

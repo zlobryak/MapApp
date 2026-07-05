@@ -4,11 +4,12 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-parcelize") //TODO описать зачем
 }
 
 android {
     namespace = "ru.netology.nmedia"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "ru.netology.nmedia"
@@ -18,8 +19,8 @@ android {
         versionName = "1.0"
 
         val properties = Properties()
-        if (rootProject.file("maps.properties").exists()) {
-            properties.load(rootProject.file("maps.properties").inputStream())
+        if (rootProject.file("local.properties").exists()) {
+            properties.load(rootProject.file("local.properties").inputStream())
         }
 
         val mapkitApiKey = properties.getProperty("MAPS_API_KEY", "")
@@ -56,4 +57,6 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.material)
     implementation(libs.maps.mobile)
+    implementation(libs.maps.mobile.v4391lite)
+    implementation(libs.androidx.room) //TODO описать зачем
 }

@@ -33,7 +33,7 @@ class MapsFragment : Fragment() {
     private val placemarkTapListener = MapObjectTapListener { mapObject, point ->
         Toast.makeText(
             requireContext(),
-            (mapObject.userData as String),
+            "Tapped the point (${point.longitude}, ${point.latitude})",
             Toast.LENGTH_LONG
         ).show()
         true

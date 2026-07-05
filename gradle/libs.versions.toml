@@ -1,19 +1,24 @@
 [versions]
 agp = "8.13.2"
-kotlin = "2.3.0"
+kotlin = "2.4.0"
 coreKtx = "1.17.0"
 appcompat = "1.7.1"
-mapsMobile = "4.29.0-lite"
-material = "1.13.0"
-activity = "1.12.2"
+mapsMobile = "4.29.0-navikit"
+mapsMobileVersion = "4.39.1-lite"
+material = "1.14.0"
+activity = "1.13.0"
 constraintlayout = "2.2.1"
+room = "2.8.4"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 maps-mobile = { module = "com.yandex.android:maps.mobile", version.ref = "mapsMobile" }
+maps-mobile-v4391lite = { module = "com.yandex.android:maps.mobile", version.ref = "mapsMobileVersion" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
+androidx-room = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 
 [plugins]
