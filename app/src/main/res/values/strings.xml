@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">NMediaMap</string>
+    <string name="menu_button">Menu button</string>
+    <string name="edit_button">Edit button</string>
+    <string name="point_of_interest">Point of interest</string>
 </resources>

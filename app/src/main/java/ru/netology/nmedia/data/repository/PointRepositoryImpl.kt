@@ -1,10 +1,10 @@
-package ru.netology.nmedia.ui.data.repository
+package ru.netology.nmedia.data.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import ru.netology.nmedia.ui.data.dao.PointDao
-import ru.netology.nmedia.ui.data.dto.Point
-import ru.netology.nmedia.ui.data.entity.PointEntity
+import ru.netology.nmedia.data.dao.PointDao
+import ru.netology.nmedia.data.dto.Point
+import ru.netology.nmedia.data.entity.PointEntity
 import javax.inject.Inject
 
 class PointRepositoryImpl @Inject constructor(

@@ -1,4 +1,4 @@
-package ru.netology.nmedia.ui.data.db
+package ru.netology.nmedia.data.db
 
 
 import android.content.Context
@@ -8,7 +8,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import ru.netology.nmedia.ui.data.dao.PointDao
+import ru.netology.nmedia.data.dao.PointDao
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)

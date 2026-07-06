@@ -8,8 +8,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
-import ru.netology.nmedia.ui.data.dto.Point
-import ru.netology.nmedia.ui.data.repository.PointRepository
+import ru.netology.nmedia.data.dto.Point
+import ru.netology.nmedia.data.repository.PointRepository
 import javax.inject.Inject
 
 @HiltViewModel

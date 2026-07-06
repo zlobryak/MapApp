@@ -1,8 +1,8 @@
-package ru.netology.nmedia.ui.data.entity
+package ru.netology.nmedia.data.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import ru.netology.nmedia.ui.data.dto.Point
+import ru.netology.nmedia.data.dto.Point
 
 @Entity
 data class PointEntity(

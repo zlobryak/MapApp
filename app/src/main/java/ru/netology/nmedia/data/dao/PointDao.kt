@@ -1,11 +1,11 @@
-package ru.netology.nmedia.ui.data.dao
+package ru.netology.nmedia.data.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import ru.netology.nmedia.ui.data.entity.PointEntity
+import ru.netology.nmedia.data.entity.PointEntity
 
 @Dao
 interface PointDao {

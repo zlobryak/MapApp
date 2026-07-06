@@ -31,7 +31,7 @@ import ru.netology.nmedia.databinding.FragmentMapsBinding
 import ru.netology.nmedia.ui.extensions.DrawableImageProvider
 import ru.netology.nmedia.ui.extensions.ImageInfo
 import ru.netology.nmedia.ui.viewmodel.PointViewModel
-import ru.netology.nmedia.ui.data.dto.Point as AppPoint //Чтобы не путать с yandex.mapkit.geometry.Point
+import ru.netology.nmedia.data.dto.Point as AppPoint //Чтобы не путать с yandex.mapkit.geometry.Point
 
 @AndroidEntryPoint
 class MapsFragment : Fragment() {
