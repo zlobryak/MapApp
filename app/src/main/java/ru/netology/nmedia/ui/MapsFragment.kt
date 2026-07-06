@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -30,6 +31,7 @@ import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.FragmentMapsBinding
 import ru.netology.nmedia.ui.extensions.DrawableImageProvider
 import ru.netology.nmedia.ui.extensions.ImageInfo
+import ru.netology.nmedia.ui.fragments.PointsListFragment
 import ru.netology.nmedia.ui.viewmodel.PointViewModel
 import ru.netology.nmedia.data.dto.Point as AppPoint //Чтобы не путать с yandex.mapkit.geometry.Point
 
@@ -152,6 +154,28 @@ class MapsFragment : Fragment() {
         }
 
         yandexMap.addInputListener(mapInputListener)
+
+        // Слушаем результат от PointsListFragment
+        setFragmentResultListener("pointSelected") { _, bundle ->
+            val latitude = bundle.getDouble("latitude")
+            val longitude = bundle.getDouble("longitude")
+
+            // Перемещаем камеру к выбранной точке
+            val target = com.yandex.mapkit.geometry.Point(latitude, longitude)
+            yandexMap.move(
+                com.yandex.mapkit.map.CameraPosition(target, 15F, 0F, 0F),
+                com.yandex.mapkit.Animation(com.yandex.mapkit.Animation.Type.SMOOTH, 1F),
+                null
+            )
+        }
+
+        binding.fabShowList.setOnClickListener {
+            // Открываем PointsListFragment
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.container, PointsListFragment()) // R.id.container - id контейнера в AppActivity
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     private fun moveToMarker(

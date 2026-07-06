@@ -36,20 +36,48 @@ class PointsAdapter(
             binding.pointName.text = point.name
             binding.pointDescription.text = point.description
 
-            // Показываем иконку посещенности, если точка посещена
-            binding.visitedIcon.visibility = if (point.isVisited) {
-                android.view.View.VISIBLE
-            } else {
-                android.view.View.GONE
-            }
 
             // Клик по всему элементу — переход к точке на карте
             binding.root.setOnClickListener {
                 listener.onPointClick(point)
             }
 
-            // Клик по иконке посещенности — редактирование
-            binding.visitedIcon.setOnClickListener {
+
+            // Клик по кнопке удаления
+            binding.deleteButton.setOnClickListener {
+                listener.onRemove(point)
+            }
+
+
+            // Меняем иконку кнопки в зависимости от статуса
+            binding.toggleVisitedButton.setImageResource(
+                if (point.isVisited) {
+                    ru.netology.nmedia.R.drawable.ic_check_circle_24dp // Заполненная галочка
+                } else {
+                    ru.netology.nmedia.R.drawable.ic_check_circle_24dp// Пустая галочка
+                }
+            )
+
+            // Меняем цвет кнопки в зависимости от статуса
+            val color = if (point.isVisited) {
+                android.graphics.Color.parseColor("#4CAF50") // Зеленый
+            } else {
+                android.graphics.Color.GRAY
+            }
+            binding.toggleVisitedButton.setColorFilter(color)
+
+            // Клик по всему элементу — переход к точке на карте
+            binding.root.setOnClickListener {
+                listener.onPointClick(point)
+            }
+
+            // Клик по кнопке переключения посещенности
+            binding.toggleVisitedButton.setOnClickListener {
+                listener.onToggleVisited(point)
+            }
+
+            // Клик по кнопке редактирования
+            binding.editButton.setOnClickListener {
                 listener.onEdit(point)
             }
 
@@ -57,6 +85,7 @@ class PointsAdapter(
             binding.deleteButton.setOnClickListener {
                 listener.onRemove(point)
             }
+
         }
     }
 
@@ -75,4 +104,5 @@ interface PointListener {
     fun onRemove(point: AppPoint)
     fun onEdit(point: AppPoint)
     fun onPointClick(point: AppPoint)
+    fun onToggleVisited(point: AppPoint)
 }

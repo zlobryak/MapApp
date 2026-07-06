@@ -14,9 +14,9 @@
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/toggleVisitedButton"
+        android:layout_marginEnd="8dp"
         tools:text="Тестовая метка"/>
-
 
     <TextView
         android:id="@+id/pointDescription"
@@ -27,18 +27,20 @@
         android:textColor="@android:color/darker_gray"
         app:layout_constraintTop_toBottomOf="@id/pointName"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/editButton"
+        app:layout_constraintEnd_toStartOf="@id/toggleVisitedButton"
         tools:text="Тут должно быть описание, сделаем его побольше, чтобы оно занимало пару строк"/>
 
-    <ImageView
-        android:id="@+id/visitedIcon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:contentDescription="@string/point_of_interest"
+    <!-- Кнопка переключения статуса посещенности -->
+    <ImageButton
+        android:id="@+id/toggleVisitedButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Отметить как посещенное"
         android:src="@drawable/ic_check_circle_24dp"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:tint="@android:color/darker_gray"
+        app:layout_constraintEnd_toStartOf="@id/editButton"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/deleteButton"
@@ -72,7 +74,6 @@
         android:background="?android:attr/listDivider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pointDescription"
-        />
+        app:layout_constraintTop_toBottomOf="@id/pointDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

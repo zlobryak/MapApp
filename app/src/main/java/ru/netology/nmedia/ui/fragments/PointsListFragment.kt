@@ -78,6 +78,11 @@ class PointsListFragment : Fragment(), PointListener {
         // Закрываем фрагмент списка
         parentFragmentManager.popBackStack()
     }
+    override fun onToggleVisited(point: AppPoint) {
+        // Инвертируем статус и сохраняем
+        val updatedPoint = point.copy(isVisited = !point.isVisited)
+        viewModel.save(updatedPoint)
+    }
 
     // === Диалог редактирования ===
 
