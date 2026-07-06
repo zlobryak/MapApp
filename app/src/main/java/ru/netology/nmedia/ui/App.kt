@@ -2,8 +2,10 @@ package ru.netology.nmedia.ui
 
 import android.app.Application
 import com.yandex.mapkit.MapKitFactory
+import dagger.hilt.android.HiltAndroidApp
 import ru.netology.nmedia.BuildConfig
 
+@HiltAndroidApp
 class App : Application() {
     override fun onCreate() {
         super.onCreate()

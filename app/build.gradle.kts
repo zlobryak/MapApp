@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize") //TODO описать зачем
+    id("com.google.dagger.hilt.android") //TODO описать зачем
+    alias(libs.plugins.kotlin.ksp)
 }
 
 android {
@@ -58,5 +60,12 @@ dependencies {
     implementation(libs.material)
     implementation(libs.maps.mobile)
     implementation(libs.maps.mobile.v4391lite)
-    implementation(libs.androidx.room) //TODO описать зачем
+    implementation(libs.androidx.room) // Room (для базы данных)
+    ksp(libs.androidx.room.compiler) //Для компиляции базы данных
+
+    implementation(libs.hilt.android) // Hilt (для внедрения зависимостей)
+    ksp(libs.hilt.android.compiler) // Hilt (для внедрения зависимостей)
+    implementation(libs.androidx.lifecycle.livedata.ktx) // Coroutines (для работы с асинхронностью)
+    implementation(libs.androidx.fragment) // Для viewModel в рагментах
+
 }

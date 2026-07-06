@@ -15,9 +15,6 @@ interface PointDao {
     @Insert(onConflict = REPLACE)
     suspend fun insert(point: PointEntity)
 
-    @Insert(onConflict = REPLACE)
-    suspend fun insert(points: List<PointEntity>)
-
     @Query(
         """UPDATE PointEntity         
             SET name = :name, 

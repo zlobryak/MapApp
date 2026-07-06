@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Point  (
     val id: Long = 0,
-    val description: String,
+    val description: String?,
     val name: String,
     val latitude: Double,
     val longitude: Double,

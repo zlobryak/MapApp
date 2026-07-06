@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
@@ -24,12 +25,18 @@ import com.yandex.mapkit.map.Map
 import com.yandex.mapkit.map.MapObjectTapListener
 import com.yandex.mapkit.map.MapWindow
 import com.yandex.mapkit.mapview.MapView
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.FragmentMapsBinding
 import ru.netology.nmedia.ui.extensions.DrawableImageProvider
 import ru.netology.nmedia.ui.extensions.ImageInfo
+import ru.netology.nmedia.ui.viewmodel.PointViewModel
+import ru.netology.nmedia.ui.data.dto.Point as AppPoint //Чтобы не путать с yandex.mapkit.geometry.Point
 
+@AndroidEntryPoint
 class MapsFragment : Fragment() {
+
+    private val viewModel: PointViewModel by viewModels()
     private val placemarkTapListener = MapObjectTapListener { mapObject, point ->
         Toast.makeText(
             requireContext(),
@@ -37,6 +44,64 @@ class MapsFragment : Fragment() {
             Toast.LENGTH_LONG
         ).show()
         true
+    }
+
+    private fun showAddPointDialog(latitude: Double, longitude: Double) {
+        // Создаем EditText для названия
+        val nameInput = android.widget.EditText(requireContext()).apply {
+            hint = "Название точки"
+        }
+
+        // Создаем EditText для описания
+        val descriptionInput = android.widget.EditText(requireContext()).apply {
+            hint = "Описание"
+        }
+
+        // Создаем LinearLayout для размещения полей ввода
+        val layout = android.widget.LinearLayout(requireContext()).apply {
+            orientation = android.widget.LinearLayout.VERTICAL
+            setPadding(50, 30, 50, 30)
+            addView(nameInput)
+            addView(descriptionInput)
+        }
+
+        // Создаем и показываем диалог
+        android.app.AlertDialog.Builder(requireContext())
+            .setTitle("Новая точка")
+            .setView(layout)
+            .setPositiveButton("Сохранить") { dialog, _ ->
+                val name = nameInput.text.toString()
+                val description = descriptionInput.text.toString()
+
+                if (name.isNotBlank()) {
+                    val newPoint = AppPoint(
+                        id = 0L, // 0 означает, что это новая точка
+                        name = name,
+                        description = description,
+                        latitude = latitude,
+                        longitude = longitude,
+                        isVisited = false
+                    )
+                    viewModel.save(newPoint)
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton("Отмена") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private val mapInputListener = object : com.yandex.mapkit.map.InputListener {
+        override fun onMapTap(map: Map, point: Point) {
+            // point здесь - это com.yandex.mapkit.geometry.Point (координаты клика)
+            // Здесь мы вызовем диалог для создания новой точки
+            showAddPointDialog(point.latitude, point.longitude)
+        }
+
+        override fun onMapLongTap(map: Map, point: Point) {
+            // TODO
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,10 +115,12 @@ class MapsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_maps, container, false)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val binding = FragmentMapsBinding.bind(view)
+
 
         val mapView = binding.map
         val mapWindow = mapView.mapWindow
@@ -61,11 +128,30 @@ class MapsFragment : Fragment() {
 
         subscribeToLifecycle(mapView)
 
-        val target = Point(55.751999, 37.617734)
-        addMarker(yandexMap, target)
-        moveToMarker(yandexMap, target)
+        val target = com.yandex.mapkit.geometry.Point(55.751999, 37.617734) // Москва
+        yandexMap.move(
+            com.yandex.mapkit.map.CameraPosition(
+                target,
+                15F,
+                0F,
+                0F
+            )
+        )
 
         checkPermissions(mapWindow)
+
+        // Подписка на данные
+        viewModel.data.observe(viewLifecycleOwner) { points: List<AppPoint> ->
+            // Очищаем карту от старых маркеров
+            yandexMap.mapObjects.clear()
+
+            // В цикле добавляем новые маркеры из списка points
+            points.forEach { appPoint: AppPoint ->
+                addMarker(yandexMap, appPoint)
+            }
+        }
+
+        yandexMap.addInputListener(mapInputListener)
     }
 
     private fun moveToMarker(
@@ -82,17 +168,19 @@ class MapsFragment : Fragment() {
         )
     }
 
-    private fun addMarker(yandexMap: Map, target: Point) {
+    private fun addMarker(yandexMap: Map, appPoint: AppPoint) {
         val imageProvider =
-            DrawableImageProvider(requireContext(), ImageInfo(R.drawable.ic_netology_48dp))
+            DrawableImageProvider(requireContext(), ImageInfo(R.drawable.ic_location_on_48dp))
 
         yandexMap.mapObjects.addPlacemark {
             it.setIcon(imageProvider)
-            it.geometry = target
-            it.setIcon(imageProvider)
-            it.setText("The Moscow Kremlin")
+            // Создаем Yandex Point из координат нашей точки
+            it.geometry = Point(appPoint.latitude, appPoint.longitude)
+            // Используем название из базы данных
+            it.setText(appPoint.name)
+            // Сохраняем id в userData, чтобы потом знать, на какой маркер кликнули
+            it.userData = appPoint.id
             it.addTapListener(placemarkTapListener)
-            it.userData = "Any additional data" // Any
         }
     }
 

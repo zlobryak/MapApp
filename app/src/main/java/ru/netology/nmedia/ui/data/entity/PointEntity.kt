@@ -8,7 +8,7 @@ import ru.netology.nmedia.ui.data.dto.Point
 data class PointEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-    val description: String,
+    val description: String?,
     val name: String,
     val latitude: Double,
     val longitude: Double,
