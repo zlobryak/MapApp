@@ -51,16 +51,16 @@
 Проект построен по паттерну **MVVM (Model-View-ViewModel)** с использованием **Repository Pattern**:
 
 ```text
-┌─────────────┐ ┌──────────────┐ ┌─────────────┐
-│ Fragment │ ───▶ │ ViewModel │ ───▶ │ Repository │
-│ (View) │ ◀─── │ (LiveData) │ ◀─── │ (Flow) │
-└─────────────┘ └──────────────┘ └──────┬──────┘
-│
-▼
-┌─────────────┐
-│ Room DAO │
-│ (SQLite) │
-└─────────────┘
+┌─────────────┐      ┌──────────────┐      ┌─────────────┐
+│ Fragment    │ ───▶ │ ViewModel    │ ───▶ │  Repository │
+│ (View)      │ ◀─── │ (LiveData)   │ ◀─── │      (Flow) │
+└─────────────┘      └──────────────┘      └──────┬──────┘
+                                                  │
+                                                  ▼
+                                           ┌─────────────┐
+                                           │ Room DAO    │
+                                           │ (SQLite)    │
+                                           └─────────────┘
 - **Model** — `PointEntity` (Room), `Point` (DTO), `PointDao`, `PointRepository`
 - **ViewModel** — `PointViewModel` (хранит `LiveData<List<Point>>`)
 - **View** — `MapsFragment`, `PointsListFragment`, адаптеры
