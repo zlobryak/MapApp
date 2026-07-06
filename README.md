@@ -49,3 +49,36 @@
 ##  Архитектура проекта
 
 Проект построен по паттерну **MVVM (Model-View-ViewModel)** с использованием **Repository Pattern**:
+
+```text
+┌─────────────┐ ┌──────────────┐ ┌─────────────┐
+│ Fragment │ ───▶ │ ViewModel │ ───▶ │ Repository │
+│ (View) │ ◀─── │ (LiveData) │ ◀─── │ (Flow) │
+└─────────────┘ └──────────────┘ └──────┬──────┘
+│
+▼
+┌─────────────┐
+│ Room DAO │
+│ (SQLite) │
+└─────────────┘
+- **Model** — `PointEntity` (Room), `Point` (DTO), `PointDao`, `PointRepository`
+- **ViewModel** — `PointViewModel` (хранит `LiveData<List<Point>>`)
+- **View** — `MapsFragment`, `PointsListFragment`, адаптеры
+
+## Неиспользуемые зависимости
+
+В соответствии с требованиями ТЗ, в проекте **отсутствуют неиспользуемые зависимости**:
+
+| Библиотека | Причина отсутствия |
+|------------|-------------------|
+| Retrofit / OkHttp | Нет работы с сетью — все данные хранятся локально |
+| Firebase (FCM) | Нет push-уведомлений |
+| Glide / Picasso | Нет загрузки изображений из сети |
+| Navigation Component | Навигация реализована через `FragmentManager` и `Fragment Result API` |
+
+## API-ключ Yandex MapKit
+
+API-ключ хранится в файле `local.properties` (не коммитится в Git):
+
+```properties
+MAPS_API_KEY=ваш_ключ_тут
