@@ -39,7 +39,7 @@ import ru.netology.nmedia.data.dto.Point as AppPoint //Чтобы не пута�
 class MapsFragment : Fragment() {
 
     private val viewModel: PointViewModel by viewModels()
-    private val placemarkTapListener = MapObjectTapListener { mapObject, point ->
+    private val placemarkTapListener = MapObjectTapListener { _, point ->
         Toast.makeText(
             requireContext(),
             "Tapped the point (${point.longitude}, ${point.latitude})",
@@ -130,9 +130,9 @@ class MapsFragment : Fragment() {
 
         subscribeToLifecycle(mapView)
 
-        val target = com.yandex.mapkit.geometry.Point(55.751999, 37.617734) // Москва
+        val target = Point(55.751999, 37.617734) // Москва
         yandexMap.move(
-            com.yandex.mapkit.map.CameraPosition(
+            CameraPosition(
                 target,
                 15F,
                 0F,
@@ -161,10 +161,10 @@ class MapsFragment : Fragment() {
             val longitude = bundle.getDouble("longitude")
 
             // Перемещаем камеру к выбранной точке
-            val target = com.yandex.mapkit.geometry.Point(latitude, longitude)
+            val target = Point(latitude, longitude)
             yandexMap.move(
-                com.yandex.mapkit.map.CameraPosition(target, 15F, 0F, 0F),
-                com.yandex.mapkit.Animation(com.yandex.mapkit.Animation.Type.SMOOTH, 1F),
+                CameraPosition(target, 15F, 0F, 0F),
+                Animation(Animation.Type.SMOOTH, 1F),
                 null
             )
         }
@@ -177,20 +177,20 @@ class MapsFragment : Fragment() {
                 .commit()
         }
     }
-
-    private fun moveToMarker(
-        yandexMap: Map,
-        target: Point
-    ) {
-        val currentPosition = yandexMap.cameraPosition
-        yandexMap.move(
-            CameraPosition(
-                target, 15F, currentPosition.azimuth, currentPosition.tilt,
-            ),
-            Animation(Animation.Type.SMOOTH, 3F),
-            null,
-        )
-    }
+// Пример из лекции для перемещения камеры
+//    private fun moveToMarker(
+//        yandexMap: Map,
+//        target: Point
+//    ) {
+//        val currentPosition = yandexMap.cameraPosition
+//        yandexMap.move(
+//            CameraPosition(
+//                target, 15F, currentPosition.azimuth, currentPosition.tilt,
+//            ),
+//            Animation(Animation.Type.SMOOTH, 3F),
+//            null,
+//        )
+//    }
 
     private fun addMarker(yandexMap: Map, appPoint: AppPoint) {
         val imageProvider =

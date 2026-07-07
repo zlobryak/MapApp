@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.data.dto.Point as AppPoint
 import ru.netology.nmedia.databinding.ItemPointBinding
+import androidx.core.graphics.toColorInt
 
 class PointsAdapter(
     private val listener: PointListener
@@ -37,30 +38,9 @@ class PointsAdapter(
             binding.pointDescription.text = point.description
 
 
-            // Клик по всему элементу — переход к точке на карте
-            binding.root.setOnClickListener {
-                listener.onPointClick(point)
-            }
-
-
-            // Клик по кнопке удаления
-            binding.deleteButton.setOnClickListener {
-                listener.onRemove(point)
-            }
-
-
-            // Меняем иконку кнопки в зависимости от статуса
-            binding.toggleVisitedButton.setImageResource(
-                if (point.isVisited) {
-                    ru.netology.nmedia.R.drawable.ic_check_circle_24dp // Заполненная галочка
-                } else {
-                    ru.netology.nmedia.R.drawable.ic_check_circle_24dp// Пустая галочка
-                }
-            )
-
             // Меняем цвет кнопки в зависимости от статуса
             val color = if (point.isVisited) {
-                android.graphics.Color.parseColor("#4CAF50") // Зеленый
+                "#4CAF50".toColorInt() // Зеленый
             } else {
                 android.graphics.Color.GRAY
             }
